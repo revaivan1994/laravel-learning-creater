@@ -1,14 +1,6 @@
-<!-- resources/views/tasks/index.blade.php -->
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task list</title>
-</head>
-
-<body>
+@section('content')
     <h1>Tasks</h1>
 
     <ul>
@@ -21,6 +13,7 @@
         @endforeach
     </ul>
     <button><a href="{{ route('tasks.create') }}">➕ Add task</a></button>
-</body>
+    <button><a href="{{ route('tasks.edit', $task) }}">Edit task</a></button>
 
-</html>
+
+@endsection

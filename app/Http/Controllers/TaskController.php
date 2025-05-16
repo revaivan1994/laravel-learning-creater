@@ -31,9 +31,25 @@ class TaskController extends Controller
             'is_done' => false,
         ]);
 
-        return redirect('/')->with('succes', 'Task added');
+        return redirect('/')->with('success', 'Task added');
     }
 
+    public function edit(Task $task)
+    {
+        return view('tasks.edit', compact('task'));
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $task->title = $request->title;
+        $task->save();
+
+        return redirect()->route('tasks.index')->with('success', 'Task update');
+    }
 
 }
 
