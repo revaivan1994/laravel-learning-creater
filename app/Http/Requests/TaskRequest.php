@@ -27,4 +27,14 @@ class TaskRequest extends FormRequest
             'status' => 'required|in:pending,completed',
         ];
     }
+
+    public function messages()
+{
+    return [
+        'title.required' => 'Task title is required.',
+        'title.max' => 'The title cannot exceed 255 characters.',
+        'status.required' => 'Select the task status.',
+        'status.in' => 'The status must be "pending" or "completed".',
+    ];
+}
 }

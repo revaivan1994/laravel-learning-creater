@@ -19,6 +19,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
+        
         <tbody>
             @foreach ($tasks as $task)
                 <tr>
@@ -34,10 +35,13 @@
                                 onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </td>
+                    
                 </tr>
             @endforeach
+            
         </tbody>
     </table>
+    <a class="btn btn-primary" href="{{ route('tasks.create') }}">Add new task!</a>
 
 
 @endsection
