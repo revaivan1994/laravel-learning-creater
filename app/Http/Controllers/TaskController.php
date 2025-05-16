@@ -26,12 +26,6 @@ class TaskController extends Controller
             'status' => 'required|in:pending,completed',
         ]);
 
-        Task::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'is_done' => false,
-        ]);
-
         Task::create($validated);
 
         return redirect()->route('tasks.index')->with('success', 'Task added');

@@ -13,6 +13,9 @@
         <h1 class="mb-4">Tasks manager</h1>
         @yield('content')
     </div>
+
+
+    @stack('scripts')
 </body>
 
 </html>
