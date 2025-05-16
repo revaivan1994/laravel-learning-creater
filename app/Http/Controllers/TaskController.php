@@ -31,6 +31,8 @@ class TaskController extends Controller
             'is_done' => false,
         ]);
 
+        Task::create($validated);
+
         return redirect('/')->with('success', 'Task added');
     }
 
@@ -57,6 +59,8 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')->with('success', 'Task delete');
     }
+
+
 
 }
 
