@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Added Task</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
     <h1>Create task</h1>
 
 
@@ -20,16 +15,35 @@
     @endif
     <form action="{{ route('tasks.store') }}" method="POST">
         @csrf
-        <label> Name:
-            <input type="text" name="title" required>
-        </label><br><br>
-        <label>Description:
-            <textarea type="text" name="description"></textarea>
-        </label><br><br>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror"
+                value="{{ old('title') }}">
+            @error('title')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" id="description"
+                class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
+            @error('description')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" id="status" class="form-control @error('status') is-invalid @enderror">
+                <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+            </select>
+            @error('status')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
 
-        <button type="submit">Add</button>
+        <button type="submit" class="btn btn-outline-primary">Add</button>
     </form>
 
     <a href="{{ url('/') }}">Back to tasks</a>
-</body>
-</html>
+@endsection

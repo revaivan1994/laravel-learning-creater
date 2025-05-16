@@ -23,6 +23,7 @@ class TaskController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'status' => 'required|in:pending,completed',
         ]);
 
         Task::create([
@@ -33,7 +34,7 @@ class TaskController extends Controller
 
         Task::create($validated);
 
-        return redirect('/')->with('success', 'Task added');
+        return redirect()->route('tasks.index')->with('success', 'Task added');
     }
 
     public function edit(Task $task)
@@ -45,9 +46,12 @@ class TaskController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:pending,completed',
         ]);
 
         $task->title = $request->title;
+         $task->description = $request->input('description');
         $task->save();
 
         return redirect()->route('tasks.index')->with('success', 'Task update');
