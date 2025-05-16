@@ -37,6 +37,17 @@
                 @enderror
             </div>
 
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" id="status" class="form-control @error('status') is-invalid @enderror">
+                    <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                </select>
+                @error('status')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <button type="submit" class="btn btn-primary">Save</button>
             <a href="{{ route('tasks.index') }}" class="btn btn-secondary ms-2">Cancel</a>
         </form>
