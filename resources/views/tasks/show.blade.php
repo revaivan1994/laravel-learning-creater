@@ -3,8 +3,11 @@
 @section('content')
     <div class="container">
         <h1>{{ $task->title }}</h1>
+        <p>Created: {{ $task->created_at->format('d.m.Y H:i') }}</p>
+        <p>Updated: {{ $task->updated_at->format('d.m.Y H:i') }}</p>
         <p>{{ $task->description }}</p>
         <p>Status: {{ $task->status }}</p>
+        
         <a href="{{ route('tasks.index') }}" class="btn btn-primary">Back to Tasks</a>
         <a href="{{ route('tasks.edit', $task) }}" class="btn btn-secondary">Edit Task</a>
         <form action="{{ route('tasks.destroy', $task) }}" method="POST" style="display:inline;">

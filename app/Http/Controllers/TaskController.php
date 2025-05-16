@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
 {
@@ -18,16 +19,9 @@ class TaskController extends Controller
         return view('tasks.create');
     }
 
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required|in:pending,completed',
-        ]);
-
-        Task::create($validated);
-
+        Task::create($request->validated());
         return redirect()->route('tasks.index')->with('success', 'Task added');
     }
 
@@ -41,17 +35,9 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required|in:pending,completed',
-        ]);
-
-        $task->title = $request->title;
-         $task->description = $request->input('description');
-        $task->save();
+        $task->update($request->validated());
 
         return redirect()->route('tasks.index')->with('success', 'Task update');
     }

@@ -22,7 +22,7 @@
         <tbody>
             @foreach ($tasks as $task)
                 <tr>
-                    <td><a href="{{ route('tasks.show', $task) }}">{{ $task->title }}</a></td>
+                    <td><a href="{{ route('tasks.show', $task) }}" title="View task">{{ $task->title }} <i class="bi bi-eye"></i></a></td>
                     <td>{{ $task->description }}</td>
                     <td>{{ $task->status }}</td>
                     <td>
