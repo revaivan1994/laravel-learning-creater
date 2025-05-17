@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\Category;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,8 @@ class TaskController extends Controller
 
     public function create()
     {
-        return view('tasks.create');
+        $categories = Category::where('user_id', Auth::id())->get();
+        return view('tasks.create', compact('categories'));
     }
 
     public function store(TaskRequest $request)
@@ -30,13 +32,14 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $this->authorizeTask($task);
-        return view('tasks.show', compact('task'));
+        return view('tasks.show');
     }
 
     public function edit(Task $task)
     {
         $this->authorizeTask($task);
-        return view('tasks.edit', compact('task'));
+         $categories = Category::where('user_id', Auth::id())->get(); 
+        return view('tasks.edit', compact('task', 'categories'));
     }
 
     public function update(TaskRequest $request, Task $task)
@@ -59,6 +62,28 @@ class TaskController extends Controller
         if ($task->user_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
+    }
+
+    public function publicIndex(Request $request)
+    {
+        $query = Task::query();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->server . '%');
+        }
+
+        $tasks = $query->get();
+        $categories = Category::all();
+
+        return view('tasks.index', compact('tasks', 'categories'));
     }
 }
 

@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+use App\Models\Category;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
@@ -19,7 +21,9 @@ class TaskFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(),
-            'is_done' => $this->faker->boolean(30), // 30% compliet tasks
+            'status' => $this->faker->randomElement(['pending', 'completed']),
+            'user_id' => User::factory(),
+            'category_id' => null,
         ];
     }
 }

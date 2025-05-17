@@ -25,6 +25,7 @@ class TaskRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'required|in:pending,completed',
+            'category_id' => 'nullable|exists:categories,id',
         ];
     }
 

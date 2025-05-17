@@ -3,6 +3,21 @@
 @section('content')
 <h1>Create task</h1>
 
+<div class="mb-3">
+    <label for="category_id" class="form-label">Category</label>
+    <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
+        <option value="">No Category</option>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}" {{ old('category_id', $task->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('category_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 
 @if ($errors->any())
     <div class="alert alert-danger">
