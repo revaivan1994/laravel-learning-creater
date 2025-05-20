@@ -38,7 +38,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         $this->authorizeTask($task);
-         $categories = Category::where('user_id', Auth::id())->get(); 
+        $categories = Category::where('user_id', Auth::id())->get(); 
         return view('tasks.edit', compact('task', 'categories'));
     }
 

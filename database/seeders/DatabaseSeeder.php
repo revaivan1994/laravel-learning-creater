@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Project;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,8 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-       $this->call(TaskSeeder::class);
+        Project::factory(5)->create()->each(function ($project) {
+            $project->tasks()->saveMany(\App\Models\Task::factory(10)->make());
+        });
     }
 }
