@@ -9,7 +9,6 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Category</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -19,11 +18,14 @@
                     <td>{{ $task->description ?? 'No description' }}</td>
                     <td>
                         <a href="{{ route('tasks.edit', $task) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-sm btn-primary">Show</a>
+                        @auth
                         <form action="{{ route('tasks.destroy', $task) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
+                        @endauth
                     </td>
                 </tr>
             @endforeach

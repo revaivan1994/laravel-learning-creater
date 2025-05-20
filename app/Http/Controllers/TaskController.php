@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Category;
+use App\Models\Project;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,16 +24,21 @@ class TaskController extends Controller
         return view('tasks.create', compact('categories'));
     }
 
-    public function store(TaskRequest $request)
+    public function store(TaskRequest $request, Project $project)
     {
         Task::create($request->validated() + ['user_id' => Auth::id()]);
-        return redirect()->route('tasks.index')->with('success', 'Task added');
+        $validated = $request->validated([
+            'name' => 'required|string|max:255',
+        ]);
+        $project->tasks()->create($validated);
+        return redirect()->route('projects.index')->with('success', 'Task added');
+
     }
 
     public function show(Task $task)
     {
         $this->authorizeTask($task);
-        return view('tasks.show');
+        return view('tasks.show', compact('task'));
     }
 
     public function edit(Task $task)
@@ -59,7 +65,8 @@ class TaskController extends Controller
 
     protected function authorizeTask(Task $task)
     {
-        if ($task->user_id !== Auth::id()) {
+        // $task->user_id !== Auth::id()
+        if (!auth()->check()) {
             abort(403, 'Unauthorized action.');
         }
     }

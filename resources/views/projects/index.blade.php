@@ -22,5 +22,6 @@
                 </div>
             </div>
         @endforeach
+        <x-task-form :project="$project" />
     </div>
 @endsection
